@@ -1,0 +1,126 @@
+<!--
+/*
+ *
+ * Author: pQCee 
+ * Description : AStablish implementation in Office Add-ins for Excel 
+ *
+ * Copyright pQCee 2023. All rights reserved
+ *
+ * “Commons Clause” License Condition v1.0
+ *
+ * The Software is provided to you by the Licensor under the License, as defined below, subject to the following
+ * condition.
+ *
+ * Without limiting other conditions in the License, the grant of rights under the License will not include, and
+ * the License does not grant to you, the right to Sell the Software.
+ *
+ * For purposes of the foregoing, “Sell” means practicing any or all of the rights granted to you under the License
+ * to provide to third parties, for a fee or other consideration (including without limitation fees for hosting or
+ * consulting/ support services related to the Software), a product or service whose value derives, entirely or
+ * substantially, from the functionality of the Software. Any license notice or attribution required by the License
+ * must also include this Commons Clause License Condition notice.
+ *
+ * Software: AStablish Office Add-in
+ *
+ * License: MIT License
+ *
+ * Licensor: pQCee Pte Ltd
+ *
+ */
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <!-- Office JavaScript API -->
+    <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+
+    <!-- AStablish Javascript for TaskPane -->
+    <script type="text/javascript" src="astablishbundle.js"></script>
+    <script type="text/javascript" src="astablish.js"></script>
+
+    <!-- Fabric Core for Office Add-in -->
+    <link rel="stylesheet" href="https://res-1.cdn.office.net/files/fabric-cdn-prod_20230815.002/office-ui-fabric-core/11.1.0/css/fabric.min.css">
+
+    <!-- CSS for vertical line between images -->
+    <style>
+      .vertical-line{
+          display: inline-block;
+          border-left: 1px solid #ccc;
+          margin: 0 10px;
+          height: 125px;
+      }
+    </style>
+  </head>
+
+  <body class="ms-Fabric">
+    <!--
+      AStablish Add-in Taskpane UI. This UI is tested with the latest webview
+      using Microsoft Edge (Chromium). If a legacy webview is detected, the
+      failover UI will be displayed instead.
+    -->
+    <div id="main">
+      <img src="assets/AStablish-logo-128.png" />
+      <span class="vertical-line"></span>
+      <img src="assets/pQCee-logo-128.png" />
+
+      <p></p>
+      <button id="btnCreateTable">Create Table</button>
+      <p></p>
+      <button id="btnValidateWalletAddress">Validate Wallet Address</button>
+      <p></p>
+      <button id="btnCreateMessage">Create Message</button>
+      <p></p>
+      <button id="btnValidateSignature">Validate Signature</button>
+    </div>
+
+    <!-- Graceful failover UI for legacy webviews -->
+    <div id="legacyMessage" style="display: none; padding: 10;">
+      This add-in will not run in your version of Office. Please upgrade either
+      to perpetual Office 2021 (or later) or to a Microsoft 365 account.
+    </div>
+
+    <script>
+      if (navigator.userAgent.includes("Trident")) {
+        /*
+          Trident is the webview in use. Do one of the following:
+          1. Provide an alternate add-in experience that doesn't use any of the
+            HTML5 features that aren't supported in Trident (IE 11).
+          2. Enable the add-in to gracefully fail by adding a message to the UI
+            that says something similar to:
+            "This add-in won't run in your version of Office. Please upgrade
+            either to perpetual Office 2021 (or later) or to a Microsoft 365
+            account."
+        */
+        let legacyMessage = document.getElementById("legacyMessage");
+        let mainUI = document.getElementById("main");
+        legacyMessage.style.display = "block";
+        mainUI.style.display = "none";
+      }
+      else if(navigator.userAgent.includes("Edge")) {
+        /*
+          EdgeHTML is the browser in use. Do one of the following:
+          1. Provide an alternate add-in experience that's supported in EdgeHTML
+             (Microsoft Edge Legacy).
+          2. Enable the add-in to gracefully fail by adding a message to the UI
+             that says something similar to:
+             "This add-in won't run in your version of Office. Please upgrade
+             either to perpetual Office 2021 (or later) or to a Microsoft 365
+             account."
+        */
+        let legacyMessage = document.getElementById("legacyMessage");
+        let mainUI = document.getElementById("main");
+        legacyMessage.style.display = "block";
+        mainUI.style.display = "none";
+      }
+      else {
+        /* 
+          A webview other than Trident or EdgeHTML is in use.
+          Provide a full-featured version of the add-in here.
+        */
+      }
+    </script>
+  </body>
+</html>
